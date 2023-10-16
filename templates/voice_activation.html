@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Insights - Voice Activation</title>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+    <div class="voice-container">
+        <h1>Voice Activation</h1>
+        <button id="start-listening">Start Listening</button>
+        <p id="output"></p>
+    </div>
+
+    <script>
+        const startButton = document.getElementById('start-listening');
+        const outputElement = document.getElementById('output');
+
+        const recognition = new webkitSpeechRecognition() || new SpeechRecognition();
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        startButton.addEventListener('click', () => {
+            recognition.start();
+        });
+
+        recognition.onresult = (event) => {
+            let interimTranscript = '';
+            for (let i = event.resultIndex; i < event.results.length; ++i) {
+                if (event.results[i].isFinal) {
+                    outputElement.innerHTML = event.results[i][0].transcript;
+                } else {
+                    interimTranscript += event.results[i][0].transcript;
+                    outputElement.innerHTML = interimTranscript;
+                }
+            }
+        };
+    </script>
+</body>
+</html>

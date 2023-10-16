@@ -109,6 +109,20 @@ def explore_page():
 def accessible_page():
     return render_template('accessible.html')
 
+
+
+@app.route('/voice_activation_page')
+def voice_activation_page():
+    return render_template('voice_activation.html')
+
+
+
+@app.route('/text_to_speech_page')
+def text_to_speech_page():
+    return render_template('text_to_speech.html')
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 
