@@ -51,6 +51,26 @@ def logout():
     logout_user()
     return redirect(url_for('home'))
 
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        existing_user = User.query.filter_by(username=username).first()
+        if existing_user is None:
+            new_user = User(username=username, password=password)
+            db.session.add(new_user)
+            db.session.commit()
+            login_user(new_user)
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Username already exists. Please choose a different username.', 'error')
+    return render_template('register.html')
+
+# ... (rest of the code)
+
+
 if __name__ == '__main__':
     db.create_all()
     app.run(debug=True)
