@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Insights - Dashboard</title>
+    <link rel="stylesheet" href="../static/styles.css">
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h1>Dashboard</h1>
+        <div id="bar-chart"></div>
+    </div>
+
+    <script>
+        // Example data for the bar chart
+        var data = [{
+            x: ['Product A', 'Product B', 'Product C'],
+            y: [10, 20, 30],
+            type: 'bar'
+        }];
+
+        // Layout configuration for the bar chart
+        var layout = {
+            title: 'Sales by Product',
+            xaxis: {title: 'Products'},
+            yaxis: {title: 'Sales'}
+        };
+
+        // Create the bar chart
+        Plotly.newPlot('bar-chart', data, layout);
+    </script>
+</body>
+</html>

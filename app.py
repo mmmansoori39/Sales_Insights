@@ -84,11 +84,30 @@ def allowed_file(filename):
 
 
 
-@app.route('/dashboard')
-def dashboard():
-    # Add authorization code here
-    return "Welcome to the Sales Insights Dashboard!"
+@app.route('/dashboard_page')
+def dashboard_page():
+    return render_template('dashboard.html')
 
+
+@app.route('/feedback_page')
+def feedback_page():
+    return render_template('feedback.html')
+
+@app.route('/submit_feedback', methods=['POST'])
+def submit_feedback():
+    feedback = request.form['feedback']
+
+    # Add code to handle feedback (e.g., store in a database)
+
+    return "Thank you for your feedback!"
+
+@app.route('/explore_page')
+def explore_page():
+    return render_template('explore.html')
+
+@app.route('/accessible_page')
+def accessible_page():
+    return render_template('accessible.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

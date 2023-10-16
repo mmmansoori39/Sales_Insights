@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Insights - Accessibility</title>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body>
+    <div class="accessible-container">
+        <h1>Accessibility Features</h1>
+        <label for="accessible-input">Accessible Input:</label>
+        <input type="text" id="accessible-input" name="accessible-input" aria-label="Enter your name" required><br><br>
+        <button type="button" onclick="displayAccessibilityInfo()">Display Accessibility Info</button>
+        <div id="accessibility-info"></div>
+    </div>
+
+    <script>
+        function displayAccessibilityInfo() {
+            var inputElement = document.getElementById('accessible-input');
+            var accessibilityInfo = document.getElementById('accessibility-info');
+
+            var isAccessible = inputElement.hasAttribute('aria-label') && inputElement.getAttribute('aria-label') !== '';
+
+            accessibilityInfo.innerHTML = isAccessible ? '<p>Accessibility Feature: Accessible Input</p>' : '<p>Accessibility Feature: Not Implemented</p>';
+        }
+    </script>
+</body>
+</html>
