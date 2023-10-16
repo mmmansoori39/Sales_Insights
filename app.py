@@ -1,76 +1,48 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
-from flask_sqlalchemy import SQLAlchemy
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask import Flask, render_template, request, redirect, url_for
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key_here'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
-db = SQLAlchemy(app)
 
-# User model
-class User(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    password = db.Column(db.String(120), nullable=False)
+# Dummy database (replace with an actual database in a real project)
+users = [{'username': 'user1', 'password': 'password1'}, {'username': 'user2', 'password': 'password2'}]
 
-# Initialize Flask-Login
-login_manager = LoginManager()
-login_manager.login_view = 'login'
-login_manager.init_app(app)
-
-@login_manager.user_loader
-def load_user(user_id):
-    return User.query.get(int(user_id))
-
-# Routes
 @app.route('/')
-def home():
-    return render_template('home.html')
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
-        user = User.query.filter_by(username=username).first()
-        if user and user.password == password:
-            login_user(user)
-            return redirect(url_for('dashboard'))
-        else:
-            flash('Invalid username or password', 'error')
+def login_page():
     return render_template('login.html')
 
-@app.route('/dashboard')
-@login_required
-def dashboard():
-    return render_template('dashboard.html', username=current_user.username)
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form['username']
+    password = request.form['password']
 
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect(url_for('home'))
+    user = next((user for user in users if user['username'] == username and user['password'] == password), None)
+
+    if user:
+        # Add authentication code here (e.g., session management)
+        return redirect(url_for('dashboard'))
+    else:
+        return "Invalid credentials. Please try again."
 
 
-@app.route('/register', methods=['GET', 'POST'])
-def register():
+@app.route('/signup_page', methods=['GET', 'POST'])
+def signup_page():
     if request.method == 'POST':
         username = request.form['username']
+        email = request.form['email']
         password = request.form['password']
-        existing_user = User.query.filter_by(username=username).first()
-        if existing_user is None:
-            new_user = User(username=username, password=password)
-            db.session.add(new_user)
-            db.session.commit()
-            login_user(new_user)
-            return redirect(url_for('dashboard'))
-        else:
-            flash('Username already exists. Please choose a different username.', 'error')
-    return render_template('register.html')
 
-# ... (rest of the code)
+        # Add code to store user information in the database (dummy data in this case)
+
+        return redirect(url_for('login_page'))
+
+    return render_template('signup.html')
+
+
+@app.route('/dashboard')
+def dashboard():
+    # Add authorization code here
+    return "Welcome to the Sales Insights Dashboard!"
 
 
 if __name__ == '__main__':
-    db.create_all()
     app.run(debug=True)
+
