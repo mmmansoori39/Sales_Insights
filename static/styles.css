@@ -3,7 +3,7 @@ body {
     background-color: #f4f4f4;
 }
 
-.login-container, .signup-container {
+.login-container, .signup-container, .upload-container {
     max-width: 400px;
     margin: 100px auto;
     padding: 20px;
