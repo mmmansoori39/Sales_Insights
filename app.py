@@ -23,7 +23,7 @@ def login():
         return "Invalid credentials. Please try again."
 
 
-@app.route('/signup_page', methods=['GET', 'POST'])
+@app.route('/signup', methods=['GET', 'POST'])
 def signup_page():
     if request.method == 'POST':
         username = request.form['username']
