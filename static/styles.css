@@ -6,14 +6,34 @@ body {
 .login-container, .signup-container, .upload-container, .dashboard-container, .feedback-container, .explore-container, .text-to-speech-container {
     max-width: 400px;
     margin: 100px auto;
-    padding: 20px;
+    padding: 20px ;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
+.login-container h1 {
     text-align: center;
+    background-color: #FFB000;
+    padding: 5px;
+    width: calc(400px + 30px );
+    margin-top: -20px;
+    margin-left: -20px;
+    margin-right: -20px;
+    margin-bottom: 30px;
+    border-radius: 5px 5px 0px 0px;
+}
+
+.signup-container h1 {
+    text-align: center;
+    background-color: #FFB000;
+    padding: 5px;
+    width: calc(400px + 30px );
+    margin-top: -20px;
+    margin-left: -20px;
+    margin-right: -20px;
+    margin-bottom: 30px;
+    border-radius: 5px 5px 0px 0px;
 }
 
 label, input {
@@ -29,11 +49,14 @@ input {
 }
 
 input[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
+    background-color: #FFB000;
+    color: #000;
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    width: calc(100% / 3);
+    margin: auto;
+    border-radius: 22px;
 }
 
 input[type="submit"]:hover {
