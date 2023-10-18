@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import os
 import pandas as pd
 
+
 app = Flask(__name__)
 
 # Dummy database (replace with an actual database in a real project)
@@ -84,6 +85,25 @@ def allowed_file(filename):
 
 
 
+@app.route('/upload_page')
+def index():
+    return render_template('upload.html')
+
+@app.route('/upload', methods=['POST'])
+def upload_file():
+    uploaded_file = request.files['file']
+    if uploaded_file.filename != '':
+        uploaded_file.save(os.path.join('uploads', uploaded_file.filename))
+        return redirect(url_for('display_data', filename=uploaded_file.filename))
+    return redirect(url_for('index'))
+
+@app.route('/display/<filename>')
+def display_data(filename):
+    filepath = os.path.join('uploads', filename)
+    data = pd.read_excel(filepath)
+    return render_template('display.html', data=data.to_html(classes='table table-bordered'))
+
+
 @app.route('/dashboard_page')
 def dashboard_page():
     return render_template('dashboard.html')
@@ -121,7 +141,13 @@ def voice_activation_page():
 def text_to_speech_page():
     return render_template('text_to_speech.html')
 
+@app.route('/logout_page')
+def logout_page():
+    return render_template('logout.html')
 
+@app.route('/voice_command')
+def voice_command():
+    return render_template('voice.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

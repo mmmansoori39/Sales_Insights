@@ -18,7 +18,7 @@
         </div>
       </span>
       <span>
-        <h4>Log out</h4>
+        <a href="/logout_page">Log out</a>
         <div class="profile-container">
           <img
             class="profile-image"
@@ -41,7 +41,7 @@
       <a href="/feedback_page">Feedback</a>
       <a href="#">History</a>
       <a href="#">Setting</a>
-      <a href="#">Log out</a>
+      <a href="logout_page">Log out</a>
     </div>
     <div class="content">
         <div class="feedback-container">
@@ -60,5 +60,28 @@
             </form>
           </div>
     </div>
+    <script>
+      const toggleContainer = document.getElementById("toggleContainer");
+      const toggleSwitch = document.getElementById("toggleSwitch");
+
+      toggleContainer.addEventListener("click", () => {
+        toggleContainer.classList.toggle("active");
+        toggleSwitch.classList.toggle("active");
+      });
+
+      function changeProfilePicture(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function () {
+          const profileImage = document.querySelector(".profile-image");
+          profileImage.src = reader.result;
+        };
+
+        if (file) {
+          reader.readAsDataURL(file);
+        }
+      }
+    </script>
   </body>
 </html>

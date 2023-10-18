@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Accessible Tableau Dashboard</title>
+<style>
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    top: auto;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+</style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to Main Content</a>
+  
+  <header>
+    <h1>Accessible Tableau Dashboard</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Dashboard 1</a></li>
+      <li><a href="#">Dashboard 2</a></li>
+      <!-- Add more dashboard links as needed -->
+    </ul>
+  </nav>
+
+  <main id="main-content">
+    <!-- Tableau Dashboard Embed Code -->
+    <!-- Example: Embedding a Tableau Dashboard -->
+    <iframe src="https://public.tableau.com/app/profile/datavizard/viz/SuperstoreSalesInsights/Insights" width="800" height="600"></iframe>
+  </main>
+
+  <footer>
+    <p>&copy; 2023 Your Company</p>
+  </footer>
+</body>
+</html>

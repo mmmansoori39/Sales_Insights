@@ -3,10 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sales Insights - Upload</title>
+    <title>Sales Insights</title>
     <link rel="stylesheet" href="../static/dashboard.css" />
     <link rel="stylesheet" href="../static/styles.css" />
-    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   </head>
   <body>
     <header>
@@ -38,20 +37,20 @@
     </header>
     <div class="sidebar">
       <a href="/dashboard_page">Dashboard</a>
-      <a href="/upload_page">Upload File</a>
+      <a href="#">Upload File</a>
       <a href="/feedback_page">Feedback</a>
       <a href="#">History</a>
       <a href="#">Setting</a>
-      <a href="/logout_page">Log out</a>
+      <a href="#">Log out</a>
     </div>
     <div class="content">
-      <div class="upload-container">
-        <h1>Upload Excel File</h1>
-        <form action="/upload" method="post" enctype="multipart/form-data">
-          <input type="file" name="file" accept=".xlsx, .xls" />
-          <input type="submit" value="Upload" />
-        </form>
-      </div>
+        <div class="logout-container">
+            <h2>Do you want to log out ? </h2>
+            <span>
+                <a href="/dashboard_page">No</a>
+                <a href="/">Yes</a>
+            </span>
+          </div>
     </div>
 
     <script>
@@ -76,25 +75,7 @@
           reader.readAsDataURL(file);
         }
       }
-
-      // Example data for the bar chart
-      var data = [
-        {
-          x: ["Product A", "Product B", "Product C"],
-          y: [10, 20, 30],
-          type: "bar",
-        },
-      ];
-
-      // Layout configuration for the bar chart
-      var layout = {
-        title: "Sales by Product",
-        xaxis: { title: "Products" },
-        yaxis: { title: "Sales" },
-      };
-
-      // Create the bar chart
-      Plotly.newPlot("bar-chart", data, layout);
     </script>
+
   </body>
 </html>
