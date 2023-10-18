@@ -1,19 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sales Insights - Feedback</title>
-    <link rel="stylesheet" href="../static/styles.css">
-</head>
-<body>
-    <div class="feedback-container">
-        <h1>Feedback</h1>
-        <form action="/submit_feedback" method="POST">
-            <label for="feedback">Your Feedback:</label><br>
-            <textarea id="feedback" name="feedback" rows="4" cols="50" required></textarea><br><br>
-            <input type="submit" value="Submit">
-        </form>
+    <link rel="stylesheet" href="../static/dashboard.css" />
+    <link rel="stylesheet" href="../static/styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>SALES INSIGHT</h1>
+      <h3>Welcome to Dashboard, Mr. James</h3>
+      <span>
+        <h4>Voice Command</h4>
+        <div class="toggle-container" id="toggleContainer">
+          <div class="toggle-switch" id="toggleSwitch"></div>
+        </div>
+      </span>
+      <span>
+        <h4>Log out</h4>
+        <div class="profile-container">
+          <img
+            class="profile-image"
+            src="default-profile.jpg"
+            alt="Profile Picture"
+          />
+          <input
+            class="profile-input"
+            type="file"
+            accept="image/*"
+            id="profileInput"
+            onchange="changeProfilePicture(event)"
+          />
+        </div>
+      </span>
+    </header>
+    <div class="sidebar">
+      <a href="/dashboard_page">Dashboard</a>
+      <a href="#">Upload File</a>
+      <a href="/feedback_page">Feedback</a>
+      <a href="#">History</a>
+      <a href="#">Setting</a>
+      <a href="#">Log out</a>
     </div>
-</body>
+    <div class="content">
+        <div class="feedback-container">
+            <h1>Feedback</h1>
+            <form action="/submit_feedback" method="POST">
+              <label for="feedback">Your Feedback:</label><br />
+              <textarea
+                id="feedback"
+                name="feedback"
+                rows="4"
+                cols="50"
+                required
+              ></textarea
+              ><br /><br />
+              <input type="submit" value="Submit" />
+            </form>
+          </div>
+    </div>
+  </body>
 </html>

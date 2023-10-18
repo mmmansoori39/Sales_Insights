@@ -1,35 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sales Insights - Dashboard</title>
-    <link rel="stylesheet" href="../static/styles.css">
+    <link rel="stylesheet" href="../static/dashboard.css" />
+    <link rel="stylesheet" href="../static/styles.css" />
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-</head>
-<body>
-    <div class="dashboard-container">
+  </head>
+  <body>
+    <header>
+      <h1>SALES INSIGHT</h1>
+      <h3>Welcome to Dashboard, Mr. James</h3>
+      <span>
+        <h4>Voice Command</h4>
+        <div class="toggle-container" id="toggleContainer">
+          <div class="toggle-switch" id="toggleSwitch"></div>
+        </div>
+      </span>
+      <span>
+        <h4>Log out</h4>
+        <div class="profile-container">
+          <img
+            class="profile-image"
+            src="default-profile.jpg"
+            alt="Profile Picture"
+          />
+          <input
+            class="profile-input"
+            type="file"
+            accept="image/*"
+            id="profileInput"
+            onchange="changeProfilePicture(event)"
+          />
+        </div>
+      </span>
+    </header>
+    <div class="sidebar">
+      <a href="#">Dashboard</a>
+      <a href="#">Upload File</a>
+      <a href="/feedback_page">Feedback</a>
+      <a href="#">History</a>
+      <a href="#">Setting</a>
+      <a href="#">Log out</a>
+    </div>
+    <div class="content">
+      <div class="dashboard-container">
         <h1>Dashboard</h1>
-        <div id="bar-chart"></div>
+        <p>Select  the Excel file from you local storage, customize the data and visualize it in different-different plots<p>
+        <div class="upload-container">
+          <h1>Data Upload</h1>
+          <form action="/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".xlsx, .xls" /><br /><br />
+            <input type="submit" value="Upload" />
+          </form>
+        </div>
+      </div>
     </div>
 
     <script>
-        // Example data for the bar chart
-        var data = [{
-            x: ['Product A', 'Product B', 'Product C'],
-            y: [10, 20, 30],
-            type: 'bar'
-        }];
+      const toggleContainer = document.getElementById("toggleContainer");
+      const toggleSwitch = document.getElementById("toggleSwitch");
 
-        // Layout configuration for the bar chart
-        var layout = {
-            title: 'Sales by Product',
-            xaxis: {title: 'Products'},
-            yaxis: {title: 'Sales'}
+      toggleContainer.addEventListener("click", () => {
+        toggleContainer.classList.toggle("active");
+        toggleSwitch.classList.toggle("active");
+      });
+
+      function changeProfilePicture(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function () {
+          const profileImage = document.querySelector(".profile-image");
+          profileImage.src = reader.result;
         };
 
-        // Create the bar chart
-        Plotly.newPlot('bar-chart', data, layout);
+        if (file) {
+          reader.readAsDataURL(file);
+        }
+      }
+
+      // Example data for the bar chart
+      var data = [
+        {
+          x: ["Product A", "Product B", "Product C"],
+          y: [10, 20, 30],
+          type: "bar",
+        },
+      ];
+
+      // Layout configuration for the bar chart
+      var layout = {
+        title: "Sales by Product",
+        xaxis: { title: "Products" },
+        yaxis: { title: "Sales" },
+      };
+
+      // Create the bar chart
+      Plotly.newPlot("bar-chart", data, layout);
     </script>
-</body>
+  </body>
 </html>

@@ -20,7 +20,7 @@ def login():
 
     if user:
         # Add authentication code here (e.g., session management)
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('dashboard_page'))
     else:
         return "Invalid credentials. Please try again."
 
@@ -74,7 +74,7 @@ def upload():
         cleaned_filename = os.path.join('uploads', 'cleaned_' + secure_filename(file.filename))
         df.to_excel(cleaned_filename, index=False)
 
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('dashboard_page'))
     else:
         return "Invalid file format. Please upload an Excel file."
 
