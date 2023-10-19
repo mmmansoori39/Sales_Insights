@@ -38,11 +38,12 @@
     </header>
     <div class="sidebar">
       <a href="/dashboard_page">Dashboard</a>
-      <a href="/upload_page">Upload File</a>
+      <a href="/upload_page" style="background-color: #ffb000;">Upload File</a>
       <a href="/feedback_page">Feedback</a>
-      <a href="#">History</a>
-      <a href="#">Setting</a>
-      <a href="/logout_page">Log out</a>
+      <a href="/voice_command">Voice Command</a>
+      <a href="/history_page">History</a>
+      <a href="/setting_page">Setting</a>
+      <a href="/logout_page" >Log out</a>
     </div>
     <div class="content">
       <div class="upload-container">
@@ -76,25 +77,7 @@
           reader.readAsDataURL(file);
         }
       }
-
-      // Example data for the bar chart
-      var data = [
-        {
-          x: ["Product A", "Product B", "Product C"],
-          y: [10, 20, 30],
-          type: "bar",
-        },
-      ];
-
-      // Layout configuration for the bar chart
-      var layout = {
-        title: "Sales by Product",
-        xaxis: { title: "Products" },
-        yaxis: { title: "Sales" },
-      };
-
-      // Create the bar chart
-      Plotly.newPlot("bar-chart", data, layout);
+ 
     </script>
   </body>
 </html>

@@ -1,14 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Display Excel Data</title>
-</head>
-<body>
-  <h1>Excel Data</h1>
-  <div>
-    {{ data | safe }}
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../static/dashboard.css" />
+    <link rel="stylesheet" href="../static/styles.css" />
+    <title>Display Excel Data</title>
+    <style>
+      .data {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      .data th,
+      .data td {
+        border: 1px solid black;
+        padding: 8px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>SALES INSIGHT</h1>
+      <h3>Welcome to Dashboard, Mr. James</h3>
+      <span>
+        <h4>Voice Command</h4>
+        <div class="toggle-container" id="toggleContainer voiceCommandButton">
+          <div class="toggle-switch" id="toggleSwitch"></div>
+        </div>
+      </span>
+      <span>
+        <a href="/logout_page">Log out</a>
+        <div class="profile-container">
+          <img
+            class="profile-image"
+            src="default-profile.jpg"
+            alt="Profile Picture"
+          />
+          <input
+            class="profile-input"
+            type="file"
+            accept="image/*"
+            id="profileInput"
+            onchange="changeProfilePicture(event)"
+          />
+        </div>
+      </span>
+    </header>
+    <div class="sidebar">
+      <a href="/dashboard_page">Dashboard</a>
+      <a href="/upload_page">Upload File</a>
+      <a href="/feedback_page">Feedback</a>
+      <a href="/voice_command">Voice Command</a>
+      <a href="/history_page">History</a>
+      <a href="/setting_page">Setting</a>
+      <a href="/logout_page">Log out</a>
+    </div>
+    <div class="content a">
+      <h1>Excel Data</h1>
+      <div>{% for table in tables %} {{ table|safe }} {% endfor %}</div>
+    </div>
+  </body>
 </html>

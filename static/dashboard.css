@@ -104,7 +104,7 @@ header span h4 {
   margin-top: -60px;
   box-shadow: 2px 0px 6px 8px rgba(0, 0, 0, 0.162);
 }
-.sidebar a {
+.sidebar a, .chart button {
   padding: 10px 20px;
   text-decoration: none;
   border: 1px solid #ffb000;
@@ -117,10 +117,10 @@ header span h4 {
   transition: 0.3s;
   cursor: pointer;
 }
-.sidebar a:first-child {
+/* .sidebar a:first-child {
   background-color: #ffb000;
   font-weight: 600;
-}
+} */
 .sidebar a:hover {
   background-color: #ffb000;
 }
@@ -131,6 +131,9 @@ header span h4 {
 }
 .content h2 {
   margin-bottom: 20px;
+}
+.a h1{
+  margin-top: 60px;
 }
 
 .dashboard-container {

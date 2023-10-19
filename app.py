@@ -44,64 +44,18 @@ def signup():
     users.append({'username': username, 'email': email, 'password': password})
     return redirect(url_for('login_page'))
 
-
-
-# Create a directory to store uploaded files if it doesn't exist
-if not os.path.exists('uploads'):
-    os.makedirs('uploads')
-
-@app.route('/upload_page')
-def upload_page():
-    return render_template('upload.html')
-
-@app.route('/upload', methods=['POST'])
-def upload():
-    file = request.files['file']
-
-    if file and allowed_file(file.filename):
-        filename = os.path.join('uploads', secure_filename(file.filename))
-        file.save(filename)
-
-        # Add code for data cleaning and preprocessing (using pandas)
-        df = pd.read_excel(filename)
-        
-        # Example data cleaning: Drop rows with missing values
-        df = df.dropna()
-
-        # Example data preprocessing: Add a new column
-        df['Total Sales'] = df['Quantity'] * df['Price']
-
-        # Save the cleaned and preprocessed data
-        cleaned_filename = os.path.join('uploads', 'cleaned_' + secure_filename(file.filename))
-        df.to_excel(cleaned_filename, index=False)
-
-        return redirect(url_for('dashboard_page'))
-    else:
-        return "Invalid file format. Please upload an Excel file."
-
-# Helper function to check if file extension is allowed
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'xlsx', 'xls'}
-
-
-
 @app.route('/upload_page')
 def index():
     return render_template('upload.html')
+
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
-        uploaded_file.save(os.path.join('uploads', uploaded_file.filename))
-        return redirect(url_for('display_data', filename=uploaded_file.filename))
-    return redirect(url_for('index'))
-
-@app.route('/display/<filename>')
-def display_data(filename):
-    filepath = os.path.join('uploads', filename)
-    data = pd.read_excel(filepath)
-    return render_template('display.html', data=data.to_html(classes='table table-bordered'))
+        data = pd.read_excel(uploaded_file)
+        return render_template('display.html', tables=[data.to_html(classes='data')], titles=['Data'])
+    return render_template('index.html', error='Please upload a file.')
 
 
 @app.route('/dashboard_page')
@@ -144,6 +98,15 @@ def text_to_speech_page():
 @app.route('/logout_page')
 def logout_page():
     return render_template('logout.html')
+
+@app.route('/setting_page')
+def setting_page():
+    return render_template('setting.html')
+
+@app.route('/history_page')
+def history_page():
+    return render_template('history.html')
+
 
 @app.route('/voice_command')
 def voice_command():
