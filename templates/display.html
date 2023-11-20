@@ -59,6 +59,17 @@
     </div>
     <div class="content a">
       <h1>Excel Data</h1>
+      <form method="post" action="/bar_graph" enctype="multipart/form-data">
+        <!-- ... other form fields ... -->
+        <label for="x_axis">X-axis:</label>
+        <input type="text" name="x_axis" required>
+        
+        <label for="y_axis">Y-axis:</label>
+        <input type="text" name="y_axis" required>
+        
+        <input type="file" name="file" accept=".xlsx, .xls">
+        <button type="submit">Upload</button>
+    </form>    
       <div>{% for table in tables %} {{ table|safe }} {% endfor %}</div>
     </div>
   </body>

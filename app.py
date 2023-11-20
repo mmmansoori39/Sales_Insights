@@ -1,9 +1,16 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import os
 import pandas as pd
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+from flask_socketio import SocketIO
 
 
 app = Flask(__name__)
+app.secret_key = 'mdmoinuddinmansoori'
+socketio = SocketIO(app)
+
 
 # Dummy database (replace with an actual database in a real project)
 users = [{'username': 'user1', 'password': 'password1'}, {'username': 'user2', 'password': 'password2'}]
@@ -54,9 +61,41 @@ def upload_file():
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
         data = pd.read_excel(uploaded_file)
+        cleaned_data = data.drop_duplicates()  # Remove duplicates
+
+        # Save cleaned data in session for later use
+        session['cleaned_data'] = cleaned_data.to_html(classes='data')
         return render_template('display.html', tables=[data.to_html(classes='data')], titles=['Data'])
+
     return render_template('index.html', error='Please upload a file.')
 
+@app.route('/bar_graph', methods=['GET', 'POST'])
+def bar_graph():
+    if 'cleaned_data' not in session:
+        # Redirect to the index page if data is not available
+        return redirect(url_for('index'))
+
+    if request.method == 'POST':
+        x_axis = request.form.get('x_axis')
+        y_axis = request.form.get('y_axis')
+
+        # Generate bar graph
+        cleaned_data = pd.read_html(session['cleaned_data'], index_col=0)[0]
+        plt.bar(cleaned_data[x_axis], cleaned_data[y_axis])
+        plt.xlabel(x_axis)
+        plt.ylabel(y_axis)
+        plt.title('Bar Graph')
+
+        # Save the plot to a BytesIO object
+        img = BytesIO()
+        plt.savefig(img, format='png')
+        img.seek(0)
+        plot_url = base64.b64encode(img.getvalue()).decode('utf8')
+
+        # Render the template with the bar graph
+        return render_template('bar_graph.html', plot_url=plot_url)
+
+    return render_template('bar_graph_input.html')
 
 @app.route('/dashboard_page')
 def dashboard_page():
@@ -113,5 +152,8 @@ def voice_command():
     return render_template('voice.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    import eventlet
+    eventlet.monkey_patch()
 
+    # Start the Flask-SocketIO application
+    socketio.run(app, debug=True)
