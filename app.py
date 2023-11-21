@@ -55,47 +55,82 @@ def signup():
 def index():
     return render_template('upload.html')
 
-
 @app.route('/upload', methods=['POST'])
 def upload_file():
     uploaded_file = request.files['file']
     if uploaded_file.filename != '':
-        data = pd.read_excel(uploaded_file)
-        cleaned_data = data.drop_duplicates()  # Remove duplicates
-
-        # Save cleaned data in session for later use
+        data = pd.read_excel(uploaded_file, header=0)
+        cleaned_data = data.drop_duplicates()
         session['cleaned_data'] = cleaned_data.to_html(classes='data')
         return render_template('display.html', tables=[data.to_html(classes='data')], titles=['Data'])
 
     return render_template('index.html', error='Please upload a file.')
 
-@app.route('/bar_graph', methods=['GET', 'POST'])
-def bar_graph():
+@app.route('/chart_options')
+def chart_options():
     if 'cleaned_data' not in session:
-        # Redirect to the index page if data is not available
         return redirect(url_for('index'))
 
-    if request.method == 'POST':
-        x_axis = request.form.get('x_axis')
-        y_axis = request.form.get('y_axis')
+    return render_template('display.html')
 
-        # Generate bar graph
-        cleaned_data = pd.read_html(session['cleaned_data'], index_col=0)[0]
+@app.route('/generate_chart', methods=['POST'])
+def generate_chart():
+    if 'cleaned_data' not in session:
+        return redirect(url_for('index'))
+
+    chart_type = request.form.get('chart_type')
+    x_axis = request.form.get('x_axis')
+    y_axis = request.form.get('y_axis')
+
+    cleaned_data = pd.read_html(session['cleaned_data'], index_col=0)[0]
+
+    if chart_type == 'pie':
+        plt.pie(cleaned_data[y_axis], labels=cleaned_data[x_axis], autopct='%1.1f%%')
+        plt.title('Pie Chart')
+
+    elif chart_type == 'bar':
         plt.bar(cleaned_data[x_axis], cleaned_data[y_axis])
         plt.xlabel(x_axis)
         plt.ylabel(y_axis)
         plt.title('Bar Graph')
 
-        # Save the plot to a BytesIO object
-        img = BytesIO()
-        plt.savefig(img, format='png')
-        img.seek(0)
-        plot_url = base64.b64encode(img.getvalue()).decode('utf8')
+    elif chart_type == 'line':
+        plt.plot(cleaned_data[x_axis], cleaned_data[y_axis], marker='o')
+        plt.xlabel(x_axis)
+        plt.ylabel(y_axis)
+        plt.title('Line Chart')
 
-        # Render the template with the bar graph
-        return render_template('bar_graph.html', plot_url=plot_url)
+    elif chart_type == 'bubble':
+        # For simplicity, bubble chart is represented as a scatter plot with marker size based on a third column
+        size_column = request.form.get('size_column')
+        plt.scatter(cleaned_data[x_axis], cleaned_data[y_axis], s=cleaned_data[size_column])
+        plt.xlabel(x_axis)
+        plt.ylabel(y_axis)
+        plt.title('Bubble Chart')
 
-    return render_template('bar_graph_input.html')
+    elif chart_type == 'scatter':
+        plt.scatter(cleaned_data[x_axis], cleaned_data[y_axis], marker='o')
+        plt.xlabel(x_axis)
+        plt.ylabel(y_axis)
+        plt.title('Scatter Plot')
+
+    elif chart_type == 'stacked_bar':
+        # For simplicity, stacked bar chart is represented as a regular bar chart
+        plt.bar(cleaned_data[x_axis], cleaned_data[y_axis], bottom=cleaned_data[y_axis])
+        plt.xlabel(x_axis)
+        plt.ylabel(y_axis)
+        plt.title('Stacked Bar Chart')
+
+    else:
+        return render_template('display.html', error='Invalid chart type selected')
+
+    img = BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+    plot_url = base64.b64encode(img.getvalue()).decode('utf8')
+
+    return render_template('generated_chart.html', plot_url=plot_url)
+
 
 @app.route('/dashboard_page')
 def dashboard_page():

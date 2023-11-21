@@ -2,23 +2,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../static/dashboard.css" />
     <link rel="stylesheet" href="../static/styles.css" />
-    <title>Display Excel Data</title>
-    <style>
-      .data {
-        border-collapse: collapse;
-        width: 100%;
-      }
-
-      .data th,
-      .data td {
-        border: 1px solid black;
-        padding: 8px;
-        text-align: left;
-      }
-    </style>
+    <title>Generated Chart</title>
   </head>
   <body>
     <header>
@@ -58,34 +46,8 @@
       <a href="/logout_page">Log out</a>
     </div>
     <div class="content a">
-      <h1>Select Chart Type</h1>
-      <form method="post" action="/generate_chart">
-        <label for="chart_type">Chart Type:</label>
-        <select name="chart_type" required>
-          <option value="pie">Pie Chart</option>
-          <option value="bar">Bar Graph</option>
-          <option value="line">Line Chart</option>
-          <option value="bubble">Bubble Chart</option>
-          <option value="scatter">Scatter Plot</option>
-          <option value="stacked_bar">Stacked Bar Chart</option>
-        </select>
-        <br />
-        <label for="x_axis">X-axis:</label>
-        <input type="text" name="x_axis" required />
-        <br />
-        <label for="y_axis">Y-axis:</label>
-        <input type="text" name="y_axis" required />
-        <br />
-        <label for="size_column">Size Column (for Bubble Chart):</label>
-        <input type="text" name="size_column" />
-        <br />
-        <button type="submit">Generate Chart</button>
-      </form>
-      {% if error %}
-      <p style="color: red">{{ error }}</p>
-      {% endif %}
-      <h1>Excel Data</h1>
-      <div>{% for table in tables %} {{ table|safe }} {% endfor %}</div>
+      <h1>Generated Chart</h1>
+      <img src="data:image/png;base64,{{ plot_url }}" alt="Generated Chart" />
     </div>
   </body>
 </html>
