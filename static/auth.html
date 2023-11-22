@@ -1,0 +1,21 @@
+<html>
+  <header></header>
+  <body>
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
+
+    <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyDP5OCeuEQD3IJXI252-fa3atPKhPaxPOl",
+        authDomain: "your-project-name.firebaseapp.com",
+        databaseURL: "https://your-project-name.firebaseio.com",
+        projectId: "your-project-name"
+      };
+      firebase.initializeApp(firebaseConfig);
+
+      const auth = firebase.auth();
+    </script>
+
+    <script src="scripts/index.js"></script>
+  </body>
+</html>

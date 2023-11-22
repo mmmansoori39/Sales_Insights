@@ -21,35 +21,15 @@ def login_page():
 
 @app.route('/login', methods=['POST'])
 def login():
-    username = request.form['username']
-    password = request.form['password']
-
-    user = next((user for user in users if user['username'] == username and user['password'] == password), None)
-
-    if user:
-        # Add authentication code here (e.g., session management)
         return redirect(url_for('dashboard_page'))
-    else:
-        return "Invalid credentials. Please try again."
-
-
 
 @app.route('/signup')
 def signup_page():
     return render_template('signup.html')
 
-@app.route('/signup', methods=['POST'])
-def signup():
-    username = request.form['username']
-    email = request.form['email']
-    password = request.form['password']
-
-    # Check if username is unique (you might want to add email uniqueness as well)
-    if next((user for user in users if user['username'] == username), None):
-        return "Username already exists. Please choose a different one."
-
-    users.append({'username': username, 'email': email, 'password': password})
-    return redirect(url_for('login_page'))
+@app.route('/signupsucc', methods=['POST'])
+def signupsucc():
+    return render_template('login.html')
 
 @app.route('/upload_page')
 def index():
@@ -109,7 +89,7 @@ def generate_chart():
         plt.title('Bubble Chart')
 
     elif chart_type == 'scatter':
-        plt.scatter(cleaned_data[x_axis], cleaned_data[y_axis], marker='o')
+        plt.scatter(cleaned_data[x_axis], cleaned_data[y_axis], marker='o' )
         plt.xlabel(x_axis)
         plt.ylabel(y_axis)
         plt.title('Scatter Plot')

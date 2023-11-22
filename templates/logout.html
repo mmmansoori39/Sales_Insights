@@ -42,17 +42,39 @@
       <a href="/voice_command">Voice Command</a>
       <a href="/history_page">History</a>
       <a href="/setting_page">Setting</a>
-      <a href="#" style="background-color: #ffb000;">Log out</a>
+      <a href="#" style="background-color: #ffb000">Log out</a>
     </div>
     <div class="content">
-        <div class="logout-container">
-            <h2>Do you want to log out ? </h2>
-            <span>
-                <a href="/dashboard_page">No</a>
-                <a href="/">Yes</a>
-            </span>
-          </div>
+      <div class="logout-container">
+        <h2>Do you want to log out ?</h2>
+        <span>
+          <a href="/dashboard_page">No</a>
+          <a href="/" id="logout-btn">Yes</a>
+        </span>
+      </div>
     </div>
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-app.js"></script>
+    <!-- Below is the additional script for Firebase Auth -->
+    <script src="https://www.gstatic.com/firebasejs/8.1.1/firebase-auth.js"></script>
+
+    <script>
+      var firebaseConfig = {
+        apiKey: "AIzaSyCMV1BfAWKCjwIGMbnZ0mvM_9EY3-Et8tI",
+        authDomain: "Sales-Insights.irebaseapp.com",
+        databaseURL: "https://Sales-Insights.firebaseio.com",
+        projectId: "sales-insights-14809"
+      };
+      firebase.initializeApp(firebaseConfig);
+
+      const auth = firebase.auth();
+      const logoutBtn = document.querySelector("#logout-btn");
+      logoutBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        auth.signOut();
+        alert("User signed out!");
+        window.location.href = '/';
+      });
+    </script>
 
     <script>
       const toggleContainer = document.getElementById("toggleContainer");
@@ -77,6 +99,5 @@
         }
       }
     </script>
-
   </body>
 </html>
