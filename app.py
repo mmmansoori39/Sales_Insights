@@ -108,8 +108,29 @@ def generate_chart():
     plt.savefig(img, format='png')
     img.seek(0)
     plot_url = base64.b64encode(img.getvalue()).decode('utf8')
+    
+    # Save the generated chart to user's chart history
+    chart_entry = {
+        'title': f'{chart_type.capitalize()} Chart',
+        'type': chart_type,
+        'x_axis': x_axis,
+        'y_axis': y_axis,
+        'plot_url': plot_url
+    }
+
+    if 'chart_history' not in session:
+        session['chart_history'] = []
+
+    session['chart_history'].append(chart_entry)
 
     return render_template('generated_chart.html', plot_url=plot_url)
+
+@app.route('/chart_history')
+def chart_history():
+    if 'chart_history' not in session:
+        session['chart_history'] = []
+
+    return render_template('chart_history.html', chart_history=session['chart_history'])
 
 
 @app.route('/dashboard_page')
