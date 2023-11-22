@@ -46,54 +46,12 @@
     </div>
     <div class="content" style="padding-top: 120px">
       <div class="content_2">
-        <div class="box" id="box1">
-          <span class="box-label">Box 1</span>
-          <div class="options">
-            <button class="delete-btn" onclick="deleteBox('box1')">
-              Delete
-            </button>
-            <button class="update-btn" onclick="updateBox('box1')">
-              Update
-            </button>
-          </div>
-        </div>
-
-        <div class="box" id="box2">
-          <span class="box-label">Box 2</span>
-          <div class="options">
-            <button class="delete-btn" onclick="deleteBox('box2')">
-              Delete
-            </button>
-            <button class="update-btn" onclick="updateBox('box2')">
-              Update
-            </button>
-          </div>
-        </div>
-        <div class="box" id="box3">
-          <span class="box-label">Box 2</span>
-          <div class="options">
-            <button class="delete-btn" onclick="deleteBox('box2')">
-              Delete
-            </button>
-            <button class="update-btn" onclick="updateBox('box2')">
-              Update
-            </button>
-          </div>
-        </div>
-        <div class="box" id="box4">
-          <span class="box-label">Box 2</span>
-          <div class="options">
-            <button class="delete-btn" onclick="deleteBox('box2')">
-              Delete
-            </button>
-            <button class="update-btn" onclick="updateBox('box2')">
-              Update
-            </button>
-          </div>
-        </div>
+        <h1>Chart History</h1>
+        <ul id="chartList" class="chart"></ul>
       </div>
     </div>
-
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="chart_history.js"></script>
     <script>
       const toggleContainer = document.getElementById("toggleContainer");
       const toggleSwitch = document.getElementById("toggleSwitch");
