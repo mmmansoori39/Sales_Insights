@@ -119,18 +119,18 @@ def generate_chart():
     }
 
     if 'chart_history' not in session:
-        session['chart_history'] = []
+        session['history'] = []
 
-    session['chart_history'].append(chart_entry)
+    session['history'].append(chart_entry)
 
     return render_template('generated_chart.html', plot_url=plot_url)
 
-@app.route('/chart_history')
+@app.route('/history_page')
 def chart_history():
-    if 'chart_history' not in session:
-        session['chart_history'] = []
+    if 'history' not in session:
+        session['history'] = []
 
-    return render_template('chart_history.html', chart_history=session['chart_history'])
+    return render_template('history.html', chart_history=session['history'])
 
 
 @app.route('/dashboard_page')
@@ -177,10 +177,6 @@ def logout_page():
 @app.route('/setting_page')
 def setting_page():
     return render_template('setting.html')
-
-@app.route('/history_page')
-def history_page():
-    return render_template('history.html')
 
 
 @app.route('/voice_command')

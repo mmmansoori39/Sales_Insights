@@ -59,7 +59,7 @@
     </div>
     <div class="content a">
       <h1>Select Chart Type</h1>
-      <form method="post" action="/generate_chart">
+      <form method="post" action="/generate_chart" id="generateChartForm">
         <label for="chart_type">Chart Type:</label>
         <select name="chart_type" required>
           <option value="pie">Pie Chart</option>
@@ -79,7 +79,7 @@
         <label for="size_column">Size Column (for Bubble Chart):</label>
         <input type="text" name="size_column" />
         <br />
-        <button type="submit">Generate Chart</button>
+        <button type="submit" id="generateChartButton">Generate Chart</button>
       </form>
       {% if error %}
       <p style="color: red">{{ error }}</p>
@@ -87,5 +87,34 @@
       <h1>Excel Data</h1>
       <div>{% for table in tables %} {{ table|safe }} {% endfor %}</div>
     </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const generateChartForm = document.getElementById('generateChartForm');
+        const generateChartButton = document.getElementById('generateChartButton');
+    
+        generateChartButton.addEventListener('click', function () {
+            // Serialize form data to send to the server
+            const formData = new FormData(generateChartForm);
+    
+            // Use AJAX to submit the form data
+            fetch('/generate_chart', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Check if the server response indicates success
+                if (data.success) {
+                    // Redirect to the chart history page after successful chart generation
+                    window.location.href = '/chart_history';
+                } else {
+                    // Handle errors or display messages to the user
+                    console.error('Chart generation failed:', data.error);
+                }
+            })
+            .catch(error => console.error('Error submitting form:', error));
+        });
+    });    
+    </script>
   </body>
 </html>
