@@ -1,9 +1,9 @@
 Flask==1.1.2
-Jinja2==2.11.3  # Specify a version compatible with MarkupSafe
+Jinja2==2.11.3
 Werkzeug==2.2.3
 click==8.1.7
-itsdangerous==2.1.2
-MarkupSafe==1.1.1  # Use a version compatible with Jinja2
+itsdangerous==1.1.0  # Use a version compatible with Flask 1.1.2
+MarkupSafe==1.1.1
 numpy==1.21.6
 pandas==1.1.5
 pillow==9.5.0
