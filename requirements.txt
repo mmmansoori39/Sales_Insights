@@ -1,6 +1,6 @@
 Flask==1.1.2
 Jinja2==2.11.3
-Werkzeug==0.16.1  # Use a version compatible with Flask 1.1.2
+Werkzeug==0.16.1
 click==8.1.7
 itsdangerous==1.1.0
 MarkupSafe==1.1.1
