@@ -17,3 +17,4 @@ python-engineio==3.14.2
 python-socketio==4.6.1
 flask-socketio==4.3.2
 eventlet==0.30.1
+xlrd==3.0.1
