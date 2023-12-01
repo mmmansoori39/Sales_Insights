@@ -5,33 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="../static/dashboard.css" />
     <link rel="stylesheet" href="../static/styles.css" />
+    <script src="../static/script.js"></script>
     <title>Voice Command</title>
   </head>
   <body>
     <header>
       <h1>SALES INSIGHT</h1>
-      <h3>Welcome to Dashboard, Mr. Prem</h3>
+      <h3 id="welcomeMessage"></h3>
       <span>
         <h4>Voice Command</h4>
-        <div class="toggle-container" id="toggleContainer voiceCommandButton">
+        <div class="toggle-container voiceCommandButton" id="toggleContainer">
           <div class="toggle-switch" id="toggleSwitch"></div>
         </div>
-      </span>
+      </span>      
       <span>
         <a href="/logout_page">Log out</a>
         <div class="profile-container">
           <img
             class="profile-image"
-            src="default-profile.jpg"
+            src="{{ url_for('static', filename='profile_pictures/' + profile_picture) }}"
             alt="Profile Picture"
           />
-          <input
-            class="profile-input"
-            type="file"
-            accept="image/*"
-            id="profileInput"
-            onchange="changeProfilePicture(event)"
-          />
+          <form
+            class="profile-form"
+            action="/upload_profile"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            <input
+              class="profile-input"
+              type="file"
+              accept="image/*"
+              name="profile_picture"
+              id="profileInput"
+            />
+            <button type="submit">Upload Profile Picture</button>
+          </form>
         </div>
       </span>
     </header>
@@ -157,28 +166,6 @@
         const speechSynthesis = window.speechSynthesis;
         const utterance = new SpeechSynthesisUtterance(text);
         speechSynthesis.speak(utterance);
-      }
-
-      const toggleContainer = document.getElementById("toggleContainer");
-      const toggleSwitch = document.getElementById("toggleSwitch");
-
-      toggleContainer.addEventListener("click", () => {
-        toggleContainer.classList.toggle("active");
-        toggleSwitch.classList.toggle("active");
-      });
-
-      function changeProfilePicture(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function () {
-          const profileImage = document.querySelector(".profile-image");
-          profileImage.src = reader.result;
-        };
-
-        if (file) {
-          reader.readAsDataURL(file);
-        }
       }
     </script>
   </body>

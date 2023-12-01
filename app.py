@@ -33,7 +33,9 @@ def signupsucc():
 
 @app.route('/upload_page')
 def index():
-    return render_template('upload.html')
+    profile_picture = request.args.get('profile_picture', 'default-profile.jpg')
+    return render_template('upload.html', profile_picture=profile_picture)
+    # return render_template('upload.html')
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -42,8 +44,8 @@ def upload_file():
         data = pd.read_excel(uploaded_file, header=0)
         cleaned_data = data.drop_duplicates()
         session['cleaned_data'] = cleaned_data.to_html(classes='data')
-        return render_template('display.html', tables=[data.to_html(classes='data')], titles=['Data'])
-
+        profile_picture = request.args.get('profile_picture', 'default-profile.jpg')
+        return render_template('display.html', tables=[data.to_html(classes='data')], titles=['Data'], profile_picture=profile_picture)
     return render_template('index.html', error='Please upload a file.')
 
 @app.route('/chart_options')
@@ -63,6 +65,8 @@ def generate_chart():
     y_axis = request.form.get('y_axis')
 
     cleaned_data = pd.read_html(session['cleaned_data'], index_col=0)[0]
+    
+    plt.clf()
 
     if chart_type == 'pie':
         plt.pie(cleaned_data[y_axis], labels=cleaned_data[x_axis], autopct='%1.1f%%')
@@ -122,25 +126,32 @@ def generate_chart():
         session['history'] = []
 
     session['history'].append(chart_entry)
-
-    return render_template('generated_chart.html', plot_url=plot_url)
+    profile_image = session.get('profile_image')
+    return render_template('generated_chart.html', plot_url=plot_url, profile_image=profile_image)
 
 @app.route('/history_page')
 def chart_history():
     if 'history' not in session:
         session['history'] = []
+        
+    profile_picture = request.args.get('profile_picture', 'default-profile.jpg')
+    return render_template('history.html', profile_picture=profile_picture, chart_history=session['history'])
 
-    return render_template('history.html', chart_history=session['history'])
+    # return render_template('history.html')
 
 
 @app.route('/dashboard_page')
 def dashboard_page():
-    return render_template('dashboard.html')
+    # Retrieve the profile image URL from the session
+    profile_image = session.get('profile_image')
+    return render_template('dashboard.html', profile_image=profile_image)
 
 
 @app.route('/feedback_page')
 def feedback_page():
-    return render_template('feedback.html')
+    profile_picture = request.args.get('profile_picture', 'default-profile.jpg')
+    return render_template('feedback.html', profile_picture=profile_picture)
+    # return render_template('feedback.html')
 
 @app.route('/submit_feedback', methods=['POST'])
 def submit_feedback():
@@ -154,39 +165,48 @@ def submit_feedback():
 def explore_page():
     return render_template('explore.html')
 
-@app.route('/accessible_page')
-def accessible_page():
-    return render_template('accessible.html')
-
-
-
-@app.route('/voice_activation_page')
-def voice_activation_page():
-    return render_template('voice_activation.html')
-
-
-
-@app.route('/text_to_speech_page')
-def text_to_speech_page():
-    return render_template('text_to_speech.html')
 
 @app.route('/logout_page')
 def logout_page():
-    return render_template('logout.html')
+    profile_picture = request.args.get('profile_picture', 'default-profile.jpg')
+    return render_template('logout.html', profile_picture=profile_picture)
+    # return render_template('logout.html')
 
 @app.route('/setting_page')
 def setting_page():
-    return render_template('setting.html')
+    profile_picture = request.args.get('profile_picture', 'default-profile.jpg')
+    return render_template('setting.html', profile_picture=profile_picture)
+    # return render_template('setting.html')
 
 
 @app.route('/voice_command')
 def voice_command():
-    return render_template('voice.html')
+    profile_picture = request.args.get('profile_picture', 'default-profile.jpg')
+    return render_template('voice.html', profile_picture=profile_picture)
+    # return render_template('voice.html')
+
+@app.route('/upload_profile', methods=['POST'])
+def upload_profile():
+    print("oppp")
+    if 'profile_picture' in request.files:
+        file = request.files['profile_picture']
+        if file.filename != '':
+            # Save the uploaded profile picture to a permanent location
+            file_path = os.path.join('static', 'profile_pictures', file.filename)
+            file.save(file_path)
+
+            # Set the profile image URL in the session
+            session['profile_image'] = file.filename
+            return redirect(url_for('dashboard_page'))
+
+    # Redirect back to the dashboard_page if no file is provided or there is an issue
+    return redirect(url_for('dashboard_page'))
 
 if __name__ == '__main__':
     import eventlet
     eventlet.monkey_patch()
 
     # Start the Flask-SocketIO application
-    socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+    socketio.run(app, port=5000, debug=True)
 
+#  host='0.0.0.0'

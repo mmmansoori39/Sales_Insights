@@ -1,32 +1,47 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // Load saved settings (if any)
-  const savedDateRange = localStorage.getItem('dateRange');
-  const savedCurrency = localStorage.getItem('currency');
-  const savedTooltips = localStorage.getItem('tooltips');
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("Script loaded and DOMContentLoaded event fired.");
 
-  if (savedDateRange) {
-    document.getElementById('dateRange').value = savedDateRange;
-  }
+  // Retrieve the username from local storage
+  const username = localStorage.getItem("userName");
+  console.log("Retrieved username from local storage:", username);
 
-  if (savedCurrency) {
-    document.getElementById('currency').value = savedCurrency;
-  }
+  // Display a welcome message using the retrieved username
+  const welcomeMessage = document.getElementById("welcomeMessage");
+  welcomeMessage.textContent = `Welcome to Dashboard, ${username || "Guest"}`;
 
-  if (savedTooltips === 'enabled') {
-    document.getElementById('tooltips').checked = true;
-  }
+  const toggleContainer = document.getElementById("toggleContainer");
+  const toggleSwitch = document.getElementById("toggleSwitch");
 
-  // Event listener for save button
-  document.getElementById('saveSettings').addEventListener('click', function() {
-    const selectedDateRange = document.getElementById('dateRange').value;
-    const selectedCurrency = document.getElementById('currency').value;
-    const tooltipsEnabled = document.getElementById('tooltips').checked;
+  toggleContainer.addEventListener("click", () => {
+    toggleContainer.classList.toggle("active");
+    toggleSwitch.classList.toggle("active");
+  });
 
-    // Save settings to localStorage
-    localStorage.setItem('dateRange', selectedDateRange);
-    localStorage.setItem('currency', selectedCurrency);
-    localStorage.setItem('tooltips', tooltipsEnabled ? 'enabled' : 'disabled');
+  const profileInput = document.getElementById("profileInput");
 
-    alert('Settings saved!');
+  profileInput.addEventListener("change", function (event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = function () {
+      const profileImage = document.querySelector(".profile-image");
+      profileImage.src = reader.result;
+
+      // Save the profile picture in local storage
+      localStorage.setItem("profileImage", reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    // Retrieve the profile image URL from local storage
+    const profileImage = localStorage.getItem("profileImage");
+    const profileImageElement = document.querySelector(".profile-image");
+    console.log("yes")
+    // Set the profile image URL
+    profileImageElement.src = profileImage || "../static/default-profile.jpg";
   });
 });

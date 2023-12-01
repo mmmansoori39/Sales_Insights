@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="../static/styles.css" />
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../static/script.js"></script>
     <style>
       canvas {
         max-width: 400px;
@@ -18,10 +19,10 @@
   <body>
     <header>
       <h1>SALES INSIGHT</h1>
-      <h3>Welcome to Dashboard, Mr. Prem</h3>
+      <h3 id="welcomeMessage"></h3>
       <span>
         <h4>Voice Command</h4>
-        <div class="toggle-container" id="toggleContainer voiceCommandButton">
+        <div class="toggle-container voiceCommandButton" id="toggleContainer">
           <div class="toggle-switch" id="toggleSwitch"></div>
         </div>
       </span>
@@ -30,21 +31,29 @@
         <div class="profile-container">
           <img
             class="profile-image"
-            src="default-profile.jpg"
+            src="{{ url_for('static', filename='profile_pictures/' + (profile_image or 'default-profile.jpg')) }}"
             alt="Profile Picture"
           />
-          <input
-            class="profile-input"
-            type="file"
-            accept="image/*"
-            id="profileInput"
-            onchange="changeProfilePicture(event)"
-          />
+          <form
+            class="profile-form"
+            action="/upload_profile"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            <input
+              class="profile-input"
+              type="file"
+              accept="image/*"
+              name="profile_picture"
+              id="profileInput"
+            />
+            <button type="submit">Upload Profile Picture</button>
+          </form>
         </div>
       </span>
     </header>
     <div class="sidebar">
-      <a href="/dashboard_page" style="background-color: #ffb000;">Dashboard</a>
+      <a href="/dashboard_page" style="background-color: #ffb000">Dashboard</a>
       <a href="/upload_page">Upload File</a>
       <a href="/feedback_page">Feedback</a>
       <a href="/voice_command">Voice Command</a>
@@ -235,28 +244,6 @@
           },
         },
       });
-
-      const toggleContainer = document.getElementById("toggleContainer");
-      const toggleSwitch = document.getElementById("toggleSwitch");
-
-      toggleContainer.addEventListener("click", () => {
-        toggleContainer.classList.toggle("active");
-        toggleSwitch.classList.toggle("active");
-      });
-
-      function changeProfilePicture(event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function () {
-          const profileImage = document.querySelector(".profile-image");
-          profileImage.src = reader.result;
-        };
-
-        if (file) {
-          reader.readAsDataURL(file);
-        }
-      }
     </script>
   </body>
 </html>
