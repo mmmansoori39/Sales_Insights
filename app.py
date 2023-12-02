@@ -66,7 +66,7 @@ def generate_chart():
 
     cleaned_data = pd.read_html(session['cleaned_data'], index_col=0)[0]
     
-    plt.clf()
+    # plt.clf()
 
     if chart_type == 'pie':
         plt.pie(cleaned_data[y_axis], labels=cleaned_data[x_axis], autopct='%1.1f%%')
