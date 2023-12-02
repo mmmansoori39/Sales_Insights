@@ -126,6 +126,8 @@ def generate_chart():
         session['history'] = []
 
     session['history'].append(chart_entry)
+
+    session['history'].append(chart_entry)
     profile_image = session.get('profile_image')
     return render_template('generated_chart.html', plot_url=plot_url, profile_image=profile_image)
 
