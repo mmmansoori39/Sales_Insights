@@ -137,7 +137,7 @@ def chart_history():
         session['history'] = []
         
     profile_picture = request.args.get('profile_picture', 'default-profile.jpg')
-    return render_template('history.html', profile_picture=profile_picture, chart_history=session['history'])
+    return render_template('history.html' chart_history=session['history'])
 
     # return render_template('history.html')
 
