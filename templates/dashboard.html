@@ -18,7 +18,7 @@
   </head>
   <body>
     <header>
-      <h1>SALES INSIGHT</h1>
+      <h1><span>SALES INSIGHT</span></h1>
       <h3 id="welcomeMessage"></h3>
       <span>
         <h4>Voice Command</h4>
@@ -44,9 +44,24 @@
               class="profile-input"
               type="file"
               accept="image/*"
-              name="profile_picture"
-              id="profileInput"
+              id="fileInput"
+              <!--
+              Add
+              an
+              id
+              attribute
+              for
+              reference
+              --
             />
+            aria-labelledby="fileInputLabel"
+            <!-- Reference the label's id for accessibility -->
+            />
+
+            <label for="fileInput" id="fileInputLabel"
+              >Choose a profile image</label
+            >
+
             <button type="submit">Upload Profile Picture</button>
           </form>
         </div>

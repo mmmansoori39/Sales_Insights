@@ -66,7 +66,7 @@ def generate_chart():
 
     cleaned_data = pd.read_html(session['cleaned_data'], index_col=0)[0]
     
-    # plt.clf()
+    plt.clf()
 
     if chart_type == 'pie':
         plt.pie(cleaned_data[y_axis], labels=cleaned_data[x_axis], autopct='%1.1f%%')
@@ -126,8 +126,8 @@ def generate_chart():
         session['history'] = []
 
     session['history'].append(chart_entry)
-
-    return render_template('generated_chart.html', plot_url=plot_url)
+    profile_picture = request.args.get('profile_picture', 'default-profile.jpg')
+    return render_template('generated_chart.html', plot_url=plot_url, profile_picture=profile_picture)
 
 @app.route('/history_page')
 def chart_history():
@@ -135,7 +135,7 @@ def chart_history():
         session['history'] = []
         
     profile_picture = request.args.get('profile_picture', 'default-profile.jpg')
-    return render_template('history.html', chart_history=session['history'])
+    return render_template('history.html', chart_history=session['history'], profile_picture=profile_picture)
 
     # return render_template('history.html')
 
